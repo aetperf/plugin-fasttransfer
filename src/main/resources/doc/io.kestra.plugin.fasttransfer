@@ -1,0 +1,44 @@
+# FastTransfer Plugin
+
+[FastTransfer](https://www.arpe.io/?v=82a9e4d26595) is a high-performance data movement tool developed by **ARPE.io**. It is designed to efficiently move large volumes of data between **heterogeneous data sources and targets** using optimized bulk-loading strategies.
+
+This plugin allows you to run the FastTransfer executable within Kestra workflows for orchestrated and automated data migration pipelines.
+
+---
+
+## Features
+
+FastTransfer supports **more than 10 source and target technologies**, including:
+
+- SQL Server (MSSQL)
+- PostgreSQL
+- MySQL
+- Oracle
+- Netezza
+- Teradata
+- DuckDB
+- SAP Hana
+- ClickHouse
+- And more...
+
+---
+
+## Technical Overview
+
+- FastTransfer is a **standalone executable** with **no dependencies**, and has a lightweight footprint of **less than 210 MB**.
+- It is designed to run in **Windows/Linux environments**, making it ideal for containerized or cloud-native architectures.
+- The plugin dynamically loads and executes the binary from its packaged resources.
+
+---
+
+## License
+
+A **license key is required** to use FastTransfer.
+
+- The task exposes a `license` parameter, where you must provide your valid license key.
+- A **free trial license** is available for evaluation purposes and can be requested directly from [ARPE.io](https://www.arpe.io/?v=82a9e4d26595).
+
+---
+
+For more details, visit the official documentation:
+[https://www.arpe.io/fasttransfer/?v=82a9e4d26595](https://www.arpe.io/fasttransfer/?v=82a9e4d26595)
