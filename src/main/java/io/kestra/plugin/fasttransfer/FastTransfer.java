@@ -46,7 +46,7 @@ import static java.util.Map.entry;
                 "targetDatabase: tpch10",
                 "targetSchema: dbo",
                 "targetTable: orders2",
-                "degree: -2",
+                "degree: 12",
                 "method: Ntile",
                 "distributeKeyColumn: o_orderkey",
                 "loadMode: Truncate",
@@ -186,7 +186,9 @@ public class FastTransfer extends Task implements RunnableTask<FastTransfer.Outp
         boolean executableSet = tempExe.setExecutable(true);
 
         List<String> command = new ArrayList<>();
+        List<String> commandLog = new ArrayList<>();
         command.add(tempExe.getAbsolutePath());
+        commandLog.add(tempExe.getAbsolutePath());
 
         Map<String, Property<?>> params = new LinkedHashMap<>();
         params.put("--sourceconnectiontype", sourceConnectionType);
@@ -223,11 +225,8 @@ public class FastTransfer extends Task implements RunnableTask<FastTransfer.Outp
         params.put("--mapmethod", mapMethod);
         params.put("--license", license);
 
-        Set<String> booleanParams = Set.of(
-            "--sourcetrusted",
-            "--targettrusted",
-            "--useworktables"
-        );
+        Set<String> booleanParams = Set.of("--sourcetrusted","--targettrusted","--useworktables");
+        Set<String> sensitiveKeys = Set.of("--sourcepassword", "--targetpassword", "--license");
 
         for (Map.Entry<String, Property<?>> entry : params.entrySet()) {
             String key = entry.getKey();
@@ -244,16 +243,19 @@ public class FastTransfer extends Task implements RunnableTask<FastTransfer.Outp
             if (booleanParams.contains(key)) {
                 if (Boolean.parseBoolean(value)) {
                     command.add(key);
+                    commandLog.add(key);
                 }
                 // Si false, on n'ajoute rien (pas de flag)
             } else {
                 // Pour les autres paramètres, on ajoute clé + valeur
                 command.add(key);
                 command.add(value);
+                commandLog.add(key);
+                commandLog.add(sensitiveKeys.contains(key) ? "*******" : value);
             }
         }
 
-        logger.info("Command to execute: {}", String.join(" ", command));
+        logger.info("Command to execute: {}", String.join(" ", commandLog));
 
 
         ProcessBuilder pb = new ProcessBuilder(command);
